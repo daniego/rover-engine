@@ -1,26 +1,5 @@
 import time
 from flask import *
-# import pigpio
-import RPi.GPIO as GPIO # import GPIO librery
-# import p1.pwm
-
-# define pins
-SERVO_X_PIN  = 28
-SERVO_Y_PIN  = 29
-
-# define servo range
-SERVO_X_MIN = 730
-SERVO_X_MAX = 3200
-SERVO_X_START = 1950
-
-SERVO_Y_MIN = 770
-SERVO_Y_MAX = 2000
-SERVO_Y_START = 1450
-
-# initialize servo
-time.sleep(1)
-# p1.pwm.servo(SERVO_X_PIN, SERVO_X_START)
-# p1.pwm.servo(SERVO_Y_PIN, SERVO_Y_START)
 
 # Create flask app and global pi 'thing' object.
 app = Flask(__name__)
@@ -33,10 +12,24 @@ def index():
     return ('Unknown control', 400)
 
 # LED route allows changing the LED state with a POST request.
-# @app.route("/control/<path:state>", methods=['POST'])
-@app.route("/control/<path:state>")
+@app.route("/controls/<path:state>", methods=['POST'])
+# @app.route("/controls/<path:state>")
 def control(state):
     # Set direction
+    if state == 'direction/glove':
+        # print('glove')
+        # print(request.json)
+        received = request.form['sensor1']
+        print("Received : "+ received)
+
+        percentage = int(received) * ( 100 / 255 )
+        print("Percentage: " + str(percentage))
+        # Considering the flex sensor (http://adafru.it/1070) a reading range is between 40% and 92%
+        return "200"
+        # p1.pwm.duty(0, 100, 10000)
+        # p1.pwm.duty(1, 50, 0)
+        # motorLeft.forward(50)
+        # motorRight.forward(50)
     if state == 'direction/forward':
         print('forward')
         # p1.pwm.duty(0, 100, 10000)
@@ -109,11 +102,11 @@ def thing():
     def get_thing_values():
         while True:
             # Build up a dict of the current thing state.
-            thing_state = {
-                'switch': pi_thing.read_switch(),
-                # 'temperature': pi_thing.get_temperature(),
-                # 'humidity': pi_thing.get_humidity()
-            }
+            # thing_state = {
+            #     'switch': pi_thing.read_switch(),
+            #     'temperature': pi_thing.get_temperature(),
+            #     'humidity': pi_thing.get_humidity()
+            # }
             # Send the thing state as a JSON object.
             yield('data: {0}\n\n'.format(json.dumps(thing_state)))
             # Wait a second and repeat.
@@ -123,5 +116,5 @@ def thing():
 # Start the flask debug server listening on the pi port 5000 by default.
 if __name__ == "__main__":
 #
-    app.run(host='0.0.0.0', port=8099, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=8099, debug=True, threaded=True, ssl_context=('ssl/cert.pem', 'ssl/key.pem'))
     # app.run(host='0.0.0.0', port=8089, debug=False, threaded=True)
