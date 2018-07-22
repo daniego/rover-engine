@@ -41,7 +41,7 @@ class PiThing(object):
 
     def view_up(self, value):
         with self._lock:
-            print "up"
+            print("up")
             self.pwm_h.ChangeDutyCycle(3.5)
             #GPIO.cleanup()
             time.sleep(1)
@@ -49,7 +49,7 @@ class PiThing(object):
 
     def view_down(self, value):
         with self._lock:
-            print "down"
+            print("down")
             self.pwm_h.ChangeDutyCycle(7.5)
             #GPIO.cleanup()
             # time.sleep(1)
@@ -68,13 +68,13 @@ class PiThing(object):
             return GPIO.input(MOTOR1_PIN)
 
     def direction_forward(self, value):
-        print value
+        print(value)
         with self._lock:
             GPIO.output(MOTOR1_PIN, value)
             GPIO.output(MOTOR2_PIN, value)
 
     def direction_backward(self, value):
-        print value
+        print(value)
         with self._lock:
             GPIO.output(MOTOR1_PIN, value)
             GPIO.output(MOTOR2_PIN, value)
@@ -90,7 +90,8 @@ class PiThing(object):
             GPIO.output(MOTOR2_PIN, value2)
 
     def direction_stop(self, value):
-        print value
+        print(value)
+
         with self._lock:
             GPIO.output(MOTOR1_PIN, value)
             GPIO.output(MOTOR2_PIN, value)

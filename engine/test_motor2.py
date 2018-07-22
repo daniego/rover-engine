@@ -40,25 +40,32 @@ class Motor:
         self.pwm_forward.ChangeDutyCycle(0)
         self.pwm_backward.ChangeDutyCycle(0)
 
-motor1 = Motor(16, 20, 21)
-motor2 = Motor(05, 06, 16)
+# -motor1 = Motor(16, 20, 21)
+# -motor2 = Motor(05, 06, 16)
+# +motor1 = Motor(20, 21, 16)
+# +motor2 = Motor(5, 6, 16)
+
+motor1 = Motor(20, 21, 16)
+motor2 = Motor(5, 6, 16)
 
 # Motor 1 test
 motor1.forward(10)
-print "f10"
+print("Motor 1 f10")
 sleep(5)
 motor1.forward(30)
-print "f30"
+print("Motor 1 f30")
 sleep(5)
 motor1.forward(50)
-print "f50"
+print("Motor 1 f50")
 sleep(5)
 motor1.forward(100)
-print "f100"
+print("Motor 1 f100")
 sleep(5)
 motor1.backward(50)
+print("Motor 1 b50")
 sleep(5)
 motor1.stop()
+print("Motor 1 stopx")
 
 
 # Motor 2 test
