@@ -1,0 +1,21 @@
+version: '3'
+services:
+  rover-engine:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: daniego/rover-engine:latest
+    ports:
+      - 80:80
+      - 443:443
+      - 8089:8089
+    # environment:
+
+    volumes:
+      - .:/srv/rover-engine
+      - ./container_fs/etc/nginx/sites-enabled/nginx80:/etc/nginx/sites-enabled/nginx80
+      - ./container_fs/etc/supervisor/conf.d/engine.conf:/etc/supervisor/conf.d/engine.conf
+      - ./container_fs/etc/uwsgi/sites/rover-engine:/etc/uwsgi/sites/rover-engine
+      - ./container_fs/etc/uwsgi/sites/rover-engine.ini:/etc/uwsgi/sites/rover-engine.ini
+      - ./container_fs/docker-entrypoint.sh:/docker-entrypoint.sh
+    privileged: true

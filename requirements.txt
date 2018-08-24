@@ -6,3 +6,4 @@ Werkzeug==0.12.1
 click==6.7
 itsdangerous==0.24
 pyserial==3.3
+uWSGI==2.0.17.1

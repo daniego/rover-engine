@@ -40,13 +40,13 @@ def control(state):
         # motorRight.forward(50)
     if state == 'direction/forward':
 
-        motor1.forward(abs(100))
-        motor2.forward(abs(100))
+        motor1.backward(abs(100))
+        motor2.backward(abs(100))
 
     elif state == 'direction/backward':
 
-        motor1.backward(abs(100))
-        motor2.backward(abs(100))
+        motor1.forward(abs(100))
+        motor2.forward(abs(100))
 
     elif state == 'direction/left':
 
@@ -71,6 +71,9 @@ def control(state):
         directionY = int(float(request.form['directionY']))
         directionX = int(float(request.form['directionX']))
 
+        print('directionY: ' + str(directionY))
+        print('directionX: ' + str(directionX))
+
         # Preventing that the variable excesses 100 or -100
         if directionY > 100:
             directionY = 100
@@ -83,17 +86,47 @@ def control(state):
             directionX = -100
 
         # basic direction
-        if directionY >= 0:
+        # if directionY >= 0:
+        #
+        #     print('backward')
+        #     motor1.backward(abs(directionY))
+        #     motor2.backward(abs(directionY))
+        #
+        # elif directionY <= 0:
+        #
+        #     print('forward')
+        #     motor1.forward(abs(directionY))
+        #     motor2.forward(abs(directionY))
 
-            print('backward')
+        # 2 axes direction
+
+        # Forward left
+        if directionY <= 0 and directionX <= 0:
+
+            print('Forward left')
+            motor1.forward(abs(directionY))
+            motor2.forward(abs(directionY))
+
+        # Forward right
+        elif directionY <= 0 and directionX >= 0:
+
+            print('Forward right')
+            motor1.forward(abs(directionY))
+            motor2.forward(abs(directionY))
+
+        # Backward left
+        if directionY <= 0 and directionX <= 0:
+
+            print('Backward left')
             motor1.backward(abs(directionY))
             motor2.backward(abs(directionY))
 
-        elif directionY <= 0:
+        # Backward right
+        elif directionY <= 0 and directionX >= 0:
 
-            print('forward')
-            motor1.forward(abs(directionY))
-            motor2.forward(abs(directionY))
+            print('Backward right')
+            motor1.backward(abs(directionY))
+            motor2.backward(abs(directionY))
 
         return('OK',200)
 
