@@ -20,24 +20,29 @@ def index():
     return ('Unknown controls', 400)
 
 # LED route allows changing the LED state with a POST request.
-@app.route("/controls/<path:state>", methods=['POST'])
+@app.route("/<path:state>", methods=['POST'])
 # @app.route("/controls/<path:state>")
 def control(state):
     # Set direction
-    if state == 'direction/glove':
+    if state == 'glove':
         # print('glove')
-        # print(request.json)
-        received = request.form['sensor1']
-        print("Received : "+ received)
+        print(request.json)
+        # print(request.json['index_finger'])
+        index_finger = request.json['index_finger']
+        middle_finger = request.json['middle_finger']
 
-        percentage = int(received) * ( 100 / 255 )
-        print("Percentage: " + str(percentage))
+        index_finger = int(float(int(index_finger) * ( 100 / 255 )))
+        middle_finger = int(float(int(middle_finger) * ( 100 / 255 )))
+
+        print("Percentage index_finger: %d & middle_finger:  %d" % (index_finger, middle_finger))
+
         # Considering the flex sensor (http://adafru.it/1070) a reading range is between 40% and 92%
         return "200"
         # p1.pwm.duty(0, 100, 10000)
         # p1.pwm.duty(1, 50, 0)
         # motorLeft.forward(50)
         # motorRight.forward(50)
+
     if state == 'direction/forward':
 
         motor1.backward(abs(100))
@@ -156,4 +161,5 @@ if __name__ == "__main__":
 
     # app.run(host='0.0.0.0', port=8099, debug=True, threaded=True, ssl_context=('ssl/cert.pem', 'ssl/key.pem'))
     # app.run(host='0.0.0.0', port=8089, debug=True, threaded=True)
-    app.run(host='0.0.0.0', port=8089, debug=False, threaded=True)
+    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
+    # app.run(host='0.0.0.0', port=8089, debug=False, threaded=True)
